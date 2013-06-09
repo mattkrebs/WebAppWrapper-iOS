@@ -194,6 +194,7 @@ NSUInteger const kWebAppMaxFailRefreshCount = 3;
 {
     if (webView == self.webView) {
         NSString *host = request.URL.host;
+        NSString *path = request.URL.path;
         
         // Determine if the URL is blocked.
         
@@ -219,6 +220,39 @@ NSUInteger const kWebAppMaxFailRefreshCount = 3;
                         *stop = YES;
                     }
                 }];
+                
+                // URL pattern for integrated web frame in omnipapr.
+                if (isExternal) {
+                    if (// Soundcloud
+                        NSMaxRange([host rangeOfString:@"w.soundcloud.com" options:(NSCaseInsensitiveSearch | NSBackwardsSearch)]) == host.length ||
+                        
+                        // Vine
+                        (
+                         NSMaxRange([host rangeOfString:@"vine.co" options:(NSCaseInsensitiveSearch | NSBackwardsSearch)]) == host.length &&
+                         [path rangeOfString:@"/embed/postcard" options:NSCaseInsensitiveSearch].location == 0
+                         ) ||
+                        
+                        // Vimeo
+                        (
+                         NSMaxRange([host rangeOfString:@"player.vimeo.com" options:(NSCaseInsensitiveSearch | NSBackwardsSearch)]) == host.length &&
+                         [path rangeOfString:@"/video" options:NSCaseInsensitiveSearch].location == 0
+                         ) ||
+                        
+                        // 8 tracks
+                        (
+                         NSMaxRange([host rangeOfString:@"8tracks.com" options:(NSCaseInsensitiveSearch | NSBackwardsSearch)]) == host.length &&
+                         [path rangeOfString:@"mixes" options:NSCaseInsensitiveSearch].location == 0
+                         ) ||
+                        
+                        // Youtube
+                        (
+                         NSMaxRange([host rangeOfString:@"youtube.com" options:(NSCaseInsensitiveSearch|NSBackwardsSearch)]) == host.length &&
+                         [path rangeOfString:@"/embed" options:NSCaseInsensitiveSearch].location == 0
+                         )
+                        ) {
+                        isExternal = NO;
+                    }
+                }
             }
         }
         
