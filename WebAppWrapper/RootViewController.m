@@ -9,8 +9,8 @@
 #import "RootViewController.h"
 #import "RWebViewController.h"
 
-NSString * const kWebAppStartLink = @"http://yourwebapp.com/";
-NSString * const kWebAppHost = @"yourwebapp.com";
+NSString * const kWebAppStartLink = @"http://omnipapr.com/";
+NSString * const kWebAppHost = @"omnipapr.com";
 NSUInteger const kWebAppMaxFailRefreshCount = 3;
 
 @interface RootViewController () <UIWebViewDelegate, UIAlertViewDelegate>
