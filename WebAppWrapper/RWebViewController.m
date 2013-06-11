@@ -255,7 +255,7 @@
     if (actionSheet == self.moreActionSheet) {
         switch (buttonIndex) {
             case 0: // Copy link
-                [[UIPasteboard generalPasteboard] setValue:self.webView.request.URL forPasteboardType:(NSString *)kUTTypeURL];
+                [[UIPasteboard generalPasteboard] setValue:self.webView.request.URL.absoluteString forPasteboardType:(NSString *)kUTTypeText];
                 break;
             case 1: // Open in Safari
                 [[UIApplication sharedApplication] openURL:self.webView.request.URL];
