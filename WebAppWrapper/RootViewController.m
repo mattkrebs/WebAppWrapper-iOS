@@ -207,6 +207,13 @@ NSUInteger const kWebAppMaxFailRefreshCount = 3;
             }
         }];
         
+        if (!isBlocked) {
+            if ([host isEqualToString:@"twitter.com"] &&
+                [path isEqualToString:@"/i/jot"]) {
+                isBlocked = YES;
+            }
+        }
+        
         // Determine if the URL is external.
         
         __block BOOL isExternal = NO;
@@ -248,6 +255,12 @@ NSUInteger const kWebAppMaxFailRefreshCount = 3;
                         (
                          NSMaxRange([host rangeOfString:@"youtube.com" options:(NSCaseInsensitiveSearch|NSBackwardsSearch)]) == host.length &&
                          [path rangeOfString:@"/embed" options:NSCaseInsensitiveSearch].location == 0
+                         ) ||
+                        
+                        // Twitter
+                        (
+                         NSMaxRange([host rangeOfString:@"platform.twitter.com" options:(NSCaseInsensitiveSearch|NSBackwardsSearch)]) == host.length &&
+                         [path rangeOfString:@"/widgets" options:NSCaseInsensitiveSearch].location == 0
                          )
                         ) {
                         isExternal = NO;
